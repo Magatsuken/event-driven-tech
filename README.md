@@ -1,5 +1,5 @@
 # Running the application
-Application can be ran after providing an API key
+Application can be ran after providing an API key in the .env file.
 
 # What does this do?
 The application will parse a text file that is dropped into an S3 bucket through a lambda function. The lambda function then stores this data into DynamoDB. On the frontend, the user can view the data in a table. The user can request the document, which calls another lambda function. This lambda function retrieves the data from DynamoDB and stores it as a CSV file in another S3 bucket. The lambda function also returns a download link that the user is able to download the CSV file.
