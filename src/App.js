@@ -1,25 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
+import DataDisplay from './DataDisplay/DataDisplay';
+import { useState, useEffect } from 'react';
 
-function App() {
+const URL = process.env.REACT_APP_BACKEND_API_ENDPOINT;
+
+export default function App() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = async () => {
+    setLoading(true);
+    fetch(`${URL}`)
+      .then(response => response.json())
+      .then(json => setUsers(json))
+      .finally(() => {
+        setLoading(false);
+      })
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App-Body-Layout">
+      {
+        loading ?
+          <div>Loading...</div>
+          :
+          <DataDisplay users={users}/>
+      }
     </div>
   );
-}
 
-export default App;
+}
